@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DarkSkyWeather.Contracts.DataModel
 {
@@ -10,7 +6,7 @@ namespace DarkSkyWeather.Contracts.DataModel
     {
         public string TimeZone { get; set; }
 
-        public DailyWeather Current { get; set; }
+        public CurrentWeather Current { get; set; }
 
         public List<DailyWeather> DailyForecast { get; set; }
     }
