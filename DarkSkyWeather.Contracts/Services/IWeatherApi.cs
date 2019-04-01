@@ -10,6 +10,6 @@ namespace DarkSkyWeather.Contracts.Services
 {
     public interface IWeatherService
     {
-        Task<WeatherInfo> GetWeatherInfo(ForecastRequest request);
+        Task<Forecast> GetForecast(ForecastRequest request);
     }
 }

@@ -1,18 +1,6 @@
 ﻿using DarkSkyWeather.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DarkSkyWeather.DesktopClient
 {
@@ -27,13 +15,18 @@ namespace DarkSkyWeather.DesktopClient
             Init();
         }
 
+        // TODO Clean code behind file
+        
         private async Task Init()
-        {
+        {            
             var weatherService = new DarkSkyWeatherService();
-            await weatherService.GetWeatherInfo(new Contracts.Requests.ForecastRequest
+            await weatherService.GetForecast(new Contracts.Requests.ForecastRequest
             {
                 Latitude = 47.497913,
-                Longitude = 19.040236
+                Longitude = 19.040236,
+                Blocks = Contracts.DataModel.ForecastBlocks.Currently | Contracts.DataModel.ForecastBlocks.Daily,
+                Language = "hu",
+                Units = Contracts.DataModel.ForecastUnits.SI
             });
         }
     }

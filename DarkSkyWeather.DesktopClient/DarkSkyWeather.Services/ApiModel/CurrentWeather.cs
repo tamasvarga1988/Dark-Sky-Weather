@@ -1,25 +1,26 @@
-﻿namespace DarkSkyWeather.Services.ApiModel
+﻿using Newtonsoft.Json;
+
+namespace DarkSkyWeather.Services.ApiModel
 {
     public class CurrentWeather
     {
-        public int time { get; set; }
-        public string summary { get; set; }
-        public string icon { get; set; }
-        public int nearestStormDistance { get; set; }
-        public int nearestStormBearing { get; set; }
-        public int precipIntensity { get; set; }
-        public int precipProbability { get; set; }
-        public double temperature { get; set; }
-        public double apparentTemperature { get; set; }
-        public double dewPoint { get; set; }
-        public double humidity { get; set; }
-        public double pressure { get; set; }
-        public double windSpeed { get; set; }
-        public double windGust { get; set; }
-        public int windBearing { get; set; }
-        public double cloudCover { get; set; }
-        public int uvIndex { get; set; }
-        public double visibility { get; set; }
-        public double ozone { get; set; }
+        [JsonProperty("time")]
+        public int Time { get; set; }
+        [JsonProperty("summary")]
+        public string Summary { get; set; }
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+        [JsonProperty("temperature")]
+        public double Temperature { get; set; }
+        [JsonProperty("apparentTemperature")]
+        public double ApparentTemperature { get; set; }
+        [JsonProperty("humidity")]
+        public double Humidity { get; set; }
+        [JsonProperty("pressure")]
+        public double Pressure { get; set; }
+        [JsonProperty("windSpeed")]
+        public double WindSpeed { get; set; }
+        [JsonProperty("uvIndex")]
+        public int UV { get; set; }
     }
 }

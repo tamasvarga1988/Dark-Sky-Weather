@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarkSkyWeather.Services.ApiModel
 {
@@ -11,7 +7,9 @@ namespace DarkSkyWeather.Services.ApiModel
     {
         [JsonProperty("summary")]
         public string Summary { get; set; }
-        public string icon { get; set; }
-        public List<DailyWeather> data { get; set; }
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+        [JsonProperty("data")]
+        public List<DailyWeather> Days { get; set; }
     }
 }

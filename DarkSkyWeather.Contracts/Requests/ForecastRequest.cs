@@ -8,5 +8,6 @@ namespace DarkSkyWeather.Contracts.Requests
         public double Longitude { get; set; }
         public ForecastBlocks Blocks { get; set; }
         public string Language { get; set; }
+        public ForecastUnits Units { get; set; }
     }
 }

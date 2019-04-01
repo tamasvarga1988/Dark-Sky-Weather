@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace DarkSkyWeather.Contracts.DataModel
 {
-    public class WeatherInfo
+    public class Forecast
     {
+        public string TimeZone { get; set; }
+
         public DailyWeather Current { get; set; }
 
-        public List<DailyWeather> Forecast { get; set; }
+        public List<DailyWeather> DailyForecast { get; set; }
     }
 }

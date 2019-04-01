@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DarkSkyWeather.Contracts.DataModel
+﻿namespace DarkSkyWeather.Contracts.DataModel
 {
-    public class DailyWeather
+    public class DailyWeather : WeatherBase
     {
-        public DateTime Date { get; set; }
-        public string Icon { get; set; }
-        public string Summary { get; set; }
-        public double Temperature { get; set; }
-        public double ApparentTemperature { get; set; }
-        public double Pressure { get; set; }
-        public double WindSpeed { get; set; }
-        public double Humidity { get; set; }
-        public double UVIndex { get; set; }
+        public double TemperatureMin { get; set; }
+        public double TemperatureMinTime { get; set; }
+        public double TemperatureMax { get; set; }
+        public double TemperatureMaxTime { get; set; }
+
+        public double ApparentTemperatureMinTime { get; set; }
+        public double ApparentTemperatureMax { get; set; }
+        public double ApparentTemperatureMaxTime { get; set; }
+        public double ApparentTemperatureMin { get; set; }
+        
+        public double UV { get; set; }
+        public double UVTime { get; set; }
     }
 }
