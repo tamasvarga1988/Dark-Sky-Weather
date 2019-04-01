@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\IWeatherApi.cs" />
+    <Compile Include="DataModel\ForecastBlock.cs" />
+    <Compile Include="DataModel\ForecastUnits.cs" />
+    <Compile Include="DataModel\WeatherInfo.cs" />
+    <Compile Include="Requests\ForecastRequest.cs" />
+    <Compile Include="Services\ICityService.cs" />
+    <Compile Include="Services\IWeatherApi.cs" />
     <Compile Include="DataModel\City.cs" />
     <Compile Include="DataModel\DailyWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

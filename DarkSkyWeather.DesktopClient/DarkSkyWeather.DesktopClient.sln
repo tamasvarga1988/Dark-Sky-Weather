@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.DesktopClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.Contracts", "..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj", "{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.ApiWrapper", "DarkSkyWeather.ApiWrapper\DarkSkyWeather.ApiWrapper.csproj", "{C8AA4C14-5127-461D-8DA9-812F4A0195BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.Services", "DarkSkyWeather.Services\DarkSkyWeather.Services.csproj", "{315B3159-67E8-416D-9707-6B6CA6B762EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8AA4C14-5127-461D-8DA9-812F4A0195BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8AA4C14-5127-461D-8DA9-812F4A0195BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8AA4C14-5127-461D-8DA9-812F4A0195BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8AA4C14-5127-461D-8DA9-812F4A0195BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{315B3159-67E8-416D-9707-6B6CA6B762EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315B3159-67E8-416D-9707-6B6CA6B762EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315B3159-67E8-416D-9707-6B6CA6B762EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315B3159-67E8-416D-9707-6B6CA6B762EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

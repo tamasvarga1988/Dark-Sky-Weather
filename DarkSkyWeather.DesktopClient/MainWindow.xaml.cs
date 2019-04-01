@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DarkSkyWeather.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,17 @@ namespace DarkSkyWeather.DesktopClient
         public MainWindow()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private async Task Init()
+        {
+            var weatherService = new DarkSkyWeatherService();
+            await weatherService.GetWeatherInfo(new Contracts.Requests.ForecastRequest
+            {
+                Latitude = 47.497913,
+                Longitude = 19.040236
+            });
         }
     }
 }

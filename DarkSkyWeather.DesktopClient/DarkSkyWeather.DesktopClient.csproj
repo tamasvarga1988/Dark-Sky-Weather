@@ -94,5 +94,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj">
+      <Project>{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}</Project>
+      <Name>DarkSkyWeather.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="DarkSkyWeather.Services\DarkSkyWeather.Services.csproj">
+      <Project>{315B3159-67E8-416D-9707-6B6CA6B762EE}</Project>
+      <Name>DarkSkyWeather.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
