@@ -11,11 +11,13 @@ namespace DarkSkyWeather.Services
     {
         IDarkSkyApiWrapper darkSkyApiWrapper;
 
+        public DarkSkyWeatherService(IDarkSkyApiWrapper darkSkyApiWrapper)
+        {
+            this.darkSkyApiWrapper = darkSkyApiWrapper;
+        }
+
         public async Task<Forecast> GetForecast(ForecastRequest request)
         {
-            // TODO Use DI
-            darkSkyApiWrapper = new DarkSkyApiWrapper();
-
             var apiForecast = await darkSkyApiWrapper.GetForecast(request);
             
             var forecast = MapperConfig.ForecastResultMapper.Map<Forecast>(apiForecast);

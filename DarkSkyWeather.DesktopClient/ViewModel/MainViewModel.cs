@@ -3,16 +3,17 @@ using DarkSkyWeather.Contracts.Requests;
 using DarkSkyWeather.Contracts.Services;
 using DarkSkyWeather.DesktopClient.Helpers;
 using DarkSkyWeather.Services;
-using GalaSoft.MvvmLight;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DarkSkyWeather.DesktopClient.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : BindableBase
     {
         private readonly IWeatherService weatherService;
         private readonly ICityService cityService;
@@ -20,7 +21,7 @@ namespace DarkSkyWeather.DesktopClient.ViewModel
         private NotifyTaskCompletion<List<City>> citiesTaskCompletion;
         private NotifyTaskCompletion<Forecast> forecastTaskCompletion;
 
-        public List<City> Cities { get; private set; }
+        public ObservableCollection<City> Cities { get; private set; }
 
         private City selectedCity;
         public City SelectedCity
@@ -51,11 +52,10 @@ namespace DarkSkyWeather.DesktopClient.ViewModel
             }
         }
         
-        public MainViewModel()
+        public MainViewModel(IWeatherService weatherService, ICityService cityService)
         {
-            // TODO Use DI
-            weatherService = new DarkSkyWeatherService();
-            cityService = new CityService();
+            this.weatherService = weatherService;
+            this.cityService = cityService;
 
             Initialize();
         }
@@ -64,9 +64,9 @@ namespace DarkSkyWeather.DesktopClient.ViewModel
         {
             citiesTaskCompletion = new NotifyTaskCompletion<List<City>>(cityService.GetCities(), (cities) =>
                 {
-                    Cities = cities;
-                    RaisePropertyChanged(nameof(Cities));
-
+                    Cities = new ObservableCollection<City>();
+                    Cities.AddRange(cities);
+                    
                     if (Cities != null && Cities.Count > 0)
                     {
                         SelectedCity = Cities.First();
