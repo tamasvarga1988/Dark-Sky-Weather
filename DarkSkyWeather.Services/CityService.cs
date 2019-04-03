@@ -1,6 +1,7 @@
 ﻿using DarkSkyWeather.Contracts.DataModel;
 using DarkSkyWeather.Contracts.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DarkSkyWeather.Services
 {
@@ -8,20 +9,19 @@ namespace DarkSkyWeather.Services
     {
         private List<City> cities;
 
-        public List<City> GetCities()
-        {
+        public Task<List<City>> GetCities()
+        {            
             if (cities == null)
             {
                 InitializeCities();
             }
 
-            return cities;
+            return Task.FromResult(cities);
         }
 
         private void InitializeCities()
         {
             // Latitude and Longitude data: https://www.latlong.net/
-
             cities = new List<City>
             {
                 new City { Name = "Budapest", Latitude = 47.497913, Longitude = 19.040236 },

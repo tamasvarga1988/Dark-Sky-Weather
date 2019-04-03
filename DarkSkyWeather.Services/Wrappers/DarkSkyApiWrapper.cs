@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DarkSkyWeather.Services.Wrappers
 {
-    internal class DarkSkyApiWrapper
-    {   
-        internal async Task<ForecastResult> GetForecast(ForecastRequest request)
+    public class DarkSkyApiWrapper : IDarkSkyApiWrapper
+    {
+        public async Task<ForecastResult> GetForecast(ForecastRequest request)
         {
             var url = ForecastUrlBuilder.GetUrl(request);
 

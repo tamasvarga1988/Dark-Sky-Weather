@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.DesktopClient", "DarkSkyWeather.DesktopClient.csproj", "{D615A731-480D-4CCD-8E1D-2E432735D199}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.DesktopClient", "DarkSkyWeather.DesktopClient\DarkSkyWeather.DesktopClient.csproj", "{D615A731-480D-4CCD-8E1D-2E432735D199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.Contracts", "..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj", "{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.Contracts", "DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj", "{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyWeather.Services", "DarkSkyWeather.Services\DarkSkyWeather.Services.csproj", "{315B3159-67E8-416D-9707-6B6CA6B762EE}"
 EndProject

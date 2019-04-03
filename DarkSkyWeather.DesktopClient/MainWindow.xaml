@@ -4,9 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DarkSkyWeather.DesktopClient"
+        xmlns:vm="clr-namespace:DarkSkyWeather.DesktopClient.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <!-- Main Grid -->
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- City and Language -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!-- City -->
+            <ComboBox 
+                ItemsSource="{Binding Cities}"
+                SelectedItem="{Binding SelectedCity, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox 
+                Grid.Column="2">
+                
+            </ComboBox>
+            
+        </Grid>
         
+        <!-- Current Weather -->
+        <Grid 
+            Grid.Row="1"
+            DataContext="{Binding Forecast}">
+            <TextBlock Text="{Binding Current.Summary}" />
+        </Grid>
     </Grid>
 </Window>

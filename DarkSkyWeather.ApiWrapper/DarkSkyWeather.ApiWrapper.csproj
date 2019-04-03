@@ -48,7 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj">
+    <ProjectReference Include="..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj">
       <Project>{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}</Project>
       <Name>DarkSkyWeather.Contracts</Name>
     </ProjectReference>

@@ -61,9 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrappers\DarkSkyApiWrapper.cs" />
     <Compile Include="Wrappers\ForecastUrlBuilder.cs" />
+    <Compile Include="Wrappers\IDarkSkyApiWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj">
+    <ProjectReference Include="..\DarkSkyWeather.Contracts\DarkSkyWeather.Contracts.csproj">
       <Project>{C1A5C720-501E-42EC-B01A-FBDFC10B35D6}</Project>
       <Name>DarkSkyWeather.Contracts</Name>
     </ProjectReference>
