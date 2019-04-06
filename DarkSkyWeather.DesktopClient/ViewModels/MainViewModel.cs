@@ -18,7 +18,7 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
     {
         private readonly IWeatherService weatherService;
         private readonly ICityService cityService;
-        
+
         private NotifyTaskCompletionBase<List<City>> citiesTaskCompletion { get; set; }
         private NotifyTaskCompletionBase<List<Language>> languagesTaskCompletion { get; set; }
         private NotifyTaskCompletionBase<Forecast> forecastTaskCompletion { get; set; }
@@ -37,7 +37,14 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
         public Language SelectedLanguage
         {
             get { return selectedLanguage; }
-            set { SetProperty(ref selectedLanguage, value, () => { LoadForecast(); }); }
+            set
+            {
+                SetProperty(ref selectedLanguage, value, () =>
+                {
+                    CurrentWeatherViewModel.SelectedLanguage = selectedLanguage;
+                    LoadForecast();
+                });
+            }
         }
 
         private Forecast forecast;
@@ -60,7 +67,7 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             get { return isLoading; }
             set
             {
-                SetProperty(ref isLoading, value, () => 
+                SetProperty(ref isLoading, value, () =>
                 {
                     if (isLoading)
                     {
@@ -73,8 +80,15 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
 
         public DelegateCommand RefreshCommand { get; private set; }
 
+        private CurrentWeatherViewModel currentWeatherViewModel;
+        public CurrentWeatherViewModel CurrentWeatherViewModel
+        {
+            get { return currentWeatherViewModel; }
+            set { SetProperty(ref currentWeatherViewModel, value); }
+        }
+        
         public MainViewModel(
-            IWeatherService weatherService, 
+            IWeatherService weatherService,
             ICityService cityService,
             NotifyTaskCompletionBase<List<City>> citiesTaskCompletion,
             NotifyTaskCompletionBase<List<Language>> languagesTaskCompletion,
@@ -90,7 +104,7 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             Initialize();
         }
 
-        
+
         private void Initialize()
         {
             citiesTaskCompletion.TaskCompleted += CitiesLoaded;
@@ -102,6 +116,8 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             forecastTaskCompletion.OnError += OnError;
 
             RefreshCommand = new DelegateCommand(Refresh, CanRefresh);
+
+            CurrentWeatherViewModel = new CurrentWeatherViewModel();
 
             LoadCities();
             LoadLanguages();
@@ -180,6 +196,8 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
         {
             IsLoading = false;
             Forecast = forecast;
+
+            CurrentWeatherViewModel.CurrentWeather = Forecast.Current;
         }
 
         private void OnError(Exception exception)

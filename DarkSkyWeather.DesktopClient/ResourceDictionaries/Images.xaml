@@ -1,0 +1,17 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DarkSkyWeather.DesktopClient.ResourceDictionaries">
+    
+    <BitmapImage x:Key="BackgroundImage" UriSource="../Images/background.jpg" />
+    <BitmapImage x:Key="RefreshIcon" UriSource="../Images/refresh.png" />
+    <BitmapImage x:Key="PoweredByIcon" UriSource="../Images/powered-by-darksky.png" />
+
+    <BitmapImage x:Key="HumidityIcon" UriSource="../Images/WeatherData/humidity.png" />
+    <BitmapImage x:Key="PressureIcon" UriSource="../Images/WeatherData/pressure.png" />
+    <BitmapImage x:Key="TemperatureHighIcon" UriSource="../Images/WeatherData/temperature-high.png" />
+    <BitmapImage x:Key="TemperatureLowIcon" UriSource="../Images/WeatherData/temperature-low.png" />
+    <BitmapImage x:Key="UVIcon" UriSource="../Images/WeatherData/uv.png" />
+    <BitmapImage x:Key="WindIcon" UriSource="../Images/WeatherData/wind.png" />
+    
+</ResourceDictionary>

@@ -1,0 +1,16 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+    xmlns:converters="clr-namespace:DarkSkyWeather.DesktopClient.Converters">
+
+    <converters:WeatherImageSourceConverter x:Key="WeatherImageSourceConverter" />
+    <converters:CountryFlagImageSourceConverter x:Key="CountryFlagImageSourceConverter" />
+    <converters:DateToStringConverter x:Key="DateToStringConverter" />
+    <converters:HumidityToStringConverter x:Key="HumidityToStringConverter" />
+    <converters:TemperatureToStringConverter x:Key="TemperatureToStringConverter" />
+    <converters:SpeedToStringConverter x:Key="SpeedToStringConverter" />
+    <converters:PressureToStringConverter x:Key="PressureToStringConverter" />
+    <converters:UvToColorConverter x:Key="UvToColorConverter" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+</ResourceDictionary>

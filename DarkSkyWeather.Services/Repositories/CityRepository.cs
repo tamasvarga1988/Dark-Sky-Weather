@@ -31,6 +31,7 @@ namespace DarkSkyWeather.Services.Repositories
                 new City { Name = "Prague", Latitude = 50.075539, Longitude = 14.437800 },
                 new City { Name = "München", Latitude = 48.135124, Longitude = 11.581981 },
                 new City { Name = "Amsterdam", Latitude = 52.370216, Longitude = 4.895168 },
+                new City { Name = "New York", Latitude = 40.712776, Longitude = -74.005974 },
             };
         }
     }

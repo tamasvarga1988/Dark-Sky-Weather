@@ -57,6 +57,13 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             set { SetProperty(ref forecast, value); }
         }
 
+        private CurrentWeatherViewModel currentWeatherViewModel;
+        public CurrentWeatherViewModel CurrentWeatherViewModel
+        {
+            get { return currentWeatherViewModel; }
+            set { SetProperty(ref currentWeatherViewModel, value); }
+        }
+
         public DelegateCommand RefreshCommand { get; private set; }
 
         public DesignTimeMainViewModel()
@@ -203,6 +210,11 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
                     },
                 }
             };
+
+            CurrentWeatherViewModel = new CurrentWeatherViewModel();
+
+            currentWeatherViewModel.SelectedLanguage = SelectedLanguage;
+            CurrentWeatherViewModel.CurrentWeather = Forecast.Current;
         }
     }
 }
