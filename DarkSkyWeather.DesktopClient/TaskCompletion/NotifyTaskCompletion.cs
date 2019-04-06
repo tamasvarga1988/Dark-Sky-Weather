@@ -2,18 +2,14 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace DarkSkyWeather.DesktopClient.Helpers
+namespace DarkSkyWeather.DesktopClient.TaskCompletion
 {
-    // https://msdn.microsoft.com/en-us/magazine/dn605875.aspx
+    // based on: https://msdn.microsoft.com/en-us/magazine/dn605875.aspx
 
-    public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
+    public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletionBase<TResult>, INotifyPropertyChanged
     {
-        private Action<TResult> successCallback;
-
-        public NotifyTaskCompletion(Task<TResult> task, Action<TResult> successCallback = null)
+        public override void Execute(Task<TResult> task)
         {
-            this.successCallback = successCallback;
-
             Task = task;
             if (!task.IsCompleted)
             {
@@ -21,9 +17,10 @@ namespace DarkSkyWeather.DesktopClient.Helpers
             }
             else
             {
-                successCallback?.Invoke(Task.Result);
+                CompleteTask(task);
             }
         }
+
         private async Task WatchTaskAsync(Task task)
         {
             try
@@ -33,34 +30,39 @@ namespace DarkSkyWeather.DesktopClient.Helpers
             catch
             {
             }
+
+            CompleteTask(task);
+        }
+
+        private void CompleteTask(Task task)
+        {
             var propertyChanged = PropertyChanged;
-            if (propertyChanged == null)
-            {
-                return;
-            }
-            propertyChanged(this, new PropertyChangedEventArgs("Status"));
-            propertyChanged(this, new PropertyChangedEventArgs("IsCompleted"));
-            propertyChanged(this, new PropertyChangedEventArgs("IsNotCompleted"));
+
+            propertyChanged?.Invoke(this, new PropertyChangedEventArgs("Status"));
+            propertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsCompleted"));
+            propertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsNotCompleted"));
+
             if (task.IsCanceled)
             {
-                propertyChanged(this, new PropertyChangedEventArgs("IsCanceled"));
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsCanceled"));
+                OnError?.Invoke(InnerException);
             }
             else if (task.IsFaulted)
             {
-                propertyChanged(this, new PropertyChangedEventArgs("IsFaulted"));
-                propertyChanged(this, new PropertyChangedEventArgs("Exception"));
-                propertyChanged(this,
-                  new PropertyChangedEventArgs("InnerException"));
-                propertyChanged(this, new PropertyChangedEventArgs("ErrorMessage"));
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFaulted"));
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("Exception"));
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("InnerException"));
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("ErrorMessage"));
+                OnError?.Invoke(InnerException);
             }
             else
             {
-                propertyChanged(this,
-                  new PropertyChangedEventArgs("IsSuccessfullyCompleted"));
-                propertyChanged(this, new PropertyChangedEventArgs("Result"));
-                successCallback?.Invoke(Task.Result);
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsSuccessfullyCompleted"));
+                propertyChanged?.Invoke(this, new PropertyChangedEventArgs("Result"));
+                TaskCompleted?.Invoke(Task.Result);
             }
         }
+        
         public Task<TResult> Task { get; private set; }
         public TResult Result
         {
@@ -96,6 +98,6 @@ namespace DarkSkyWeather.DesktopClient.Helpers
                 return (InnerException == null) ? null : InnerException.Message;
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;        
     }
 }

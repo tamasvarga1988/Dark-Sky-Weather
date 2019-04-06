@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DarkSkyWeather.Contracts.DataModel
+namespace DarkSkyWeather.Contracts.Dtos
 {
     public abstract class WeatherBase
     {

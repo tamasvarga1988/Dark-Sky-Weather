@@ -1,4 +1,4 @@
-﻿using DarkSkyWeather.Contracts.DataModel;
+﻿using DarkSkyWeather.Contracts.Dtos;
 
 namespace DarkSkyWeather.Contracts.Requests
 {

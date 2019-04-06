@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DarkSkyWeather.Contracts.DataModel
+namespace DarkSkyWeather.Contracts.Dtos
 {
     public class Forecast
     {

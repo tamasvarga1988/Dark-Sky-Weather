@@ -78,12 +78,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\CountryFlagImageSourceConverter.cs" />
     <Compile Include="Converters\DateToStringConverter.cs" />
     <Compile Include="Converters\HumidityToStringConverter.cs" />
+    <Compile Include="Converters\UvToColorConverter.cs" />
+    <Compile Include="Converters\WeatherImageSourceConverter.cs" />
+    <Compile Include="Converters\PressureToStringConverter.cs" />
+    <Compile Include="Converters\SpeedToStringConverter.cs" />
     <Compile Include="Converters\TemperatureToStringConverter.cs" />
-    <Compile Include="Helpers\NotifyTaskCompletion.cs" />
-    <Compile Include="ViewModel\DesignTimeMainViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="TaskCompletion\INotifyTaskCompletion.cs" />
+    <Compile Include="TaskCompletion\NotifyTaskCompletion.cs" />
+    <Compile Include="ViewModels\DesignTimeMainViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,29 +142,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <Resource Include="Images\WeatherConditions\wind.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\clear-day.png" />
-    <Resource Include="Images\clear-night.png" />
-    <Resource Include="Images\cloudy.png" />
-    <Resource Include="Images\fog.png" />
-    <Resource Include="Images\partly-cloudy-day.png" />
-    <Resource Include="Images\partly-cloudy-night.png" />
-    <Resource Include="Images\rain.png" />
-    <Resource Include="Images\sleet.png" />
-    <Resource Include="Images\snow.png" />
-    <Resource Include="Images\uv.png" />
-    <Resource Include="Images\wind.png" />
+    <Resource Include="Images\WeatherConditions\clear-day.png" />
+    <Resource Include="Images\WeatherConditions\clear-night.png" />
+    <Resource Include="Images\WeatherConditions\cloudy.png" />
+    <Resource Include="Images\WeatherConditions\fog.png" />
+    <Resource Include="Images\WeatherConditions\partly-cloudy-day.png" />
+    <Resource Include="Images\WeatherConditions\partly-cloudy-night.png" />
+    <Resource Include="Images\WeatherConditions\rain.png" />
+    <Resource Include="Images\WeatherConditions\sleet.png" />
+    <Resource Include="Images\WeatherConditions\snow.png" />
+    <Resource Include="Images\WeatherData\uv.png" />
+    <Resource Include="Images\WeatherData\wind.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\humidity.png" />
+    <Resource Include="Images\WeatherData\humidity.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\background.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\pressure.png" />
+    <Resource Include="Images\WeatherData\pressure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WeatherData\temperature-high.png" />
+    <Resource Include="Images\WeatherData\temperature-low.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CountryFlags\hu.jpg" />
+    <Resource Include="Images\CountryFlags\en.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

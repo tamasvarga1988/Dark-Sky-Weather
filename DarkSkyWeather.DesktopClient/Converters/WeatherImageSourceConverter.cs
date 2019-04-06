@@ -4,12 +4,11 @@ using System.Windows.Data;
 
 namespace DarkSkyWeather.DesktopClient.Converters
 {
-    public class HumidityToStringConverter : IValueConverter
+    public class WeatherImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var humidity = (double)value;
-            return $"{humidity * 100}%";
+            return $"Images/WeatherConditions/{value}.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

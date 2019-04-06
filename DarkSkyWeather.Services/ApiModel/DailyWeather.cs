@@ -25,20 +25,12 @@ namespace DarkSkyWeather.Services.ApiModel
 
         [JsonProperty("temperatureMin")]
         public double TemperatureMin { get; set; }
-        [JsonProperty("temperatureMinTime")]
-        public int TemperatureMinTime { get; set; }
         [JsonProperty("temperatureMax")]
         public double TemperatureMax { get; set; }
-        [JsonProperty("temperatureMaxTime")]
-        public int TemperatureMaxTime { get; set; }
 
         [JsonProperty("apparentTemperatureMin")]
         public double ApparentTemperatureMin { get; set; }
-        [JsonProperty("apparentTemperatureMinTime")]
-        public int ApparentTemperatureMinTime { get; set; }
         [JsonProperty("apparentTemperatureMax")]
         public double ApparentTemperatureMax { get; set; }
-        [JsonProperty("apparentTemperatureMaxTime")]
-        public int ApparentTemperatureMaxTime { get; set; }
     }
 }

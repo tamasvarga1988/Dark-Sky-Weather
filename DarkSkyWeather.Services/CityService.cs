@@ -1,5 +1,7 @@
-﻿using DarkSkyWeather.Contracts.DataModel;
+﻿using DarkSkyWeather.Contracts.Dtos;
 using DarkSkyWeather.Contracts.Services;
+using DarkSkyWeather.Services.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,32 +9,16 @@ namespace DarkSkyWeather.Services
 {
     public class CityService : ICityService
     {
-        private List<City> cities;
+        private readonly ICityRepository cityRepository;
 
-        public Task<List<City>> GetCities()
-        {            
-            if (cities == null)
-            {
-                InitializeCities();
-            }
-
-            return Task.FromResult(cities);
+        public CityService(ICityRepository cityRepository)
+        {
+            this.cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
 
-        private void InitializeCities()
+        public async Task<List<City>> GetCities()
         {
-            // Latitude and Longitude data: https://www.latlong.net/
-            cities = new List<City>
-            {
-                new City { Name = "Budapest", Latitude = 47.497913, Longitude = 19.040236 },
-                new City { Name = "Luxembourg", Latitude = 49.815273, Longitude = 6.129583 },
-                new City { Name = "Debrecen", Latitude = 47.533340, Longitude = 21.625210 },
-                new City { Name = "Pécs", Latitude = 46.071301, Longitude = 18.233141 },
-                new City { Name = "Wienna", Latitude = 48.209209, Longitude = 16.372780 },
-                new City { Name = "Prague", Latitude = 50.075539, Longitude = 14.437800 },
-                new City { Name = "München", Latitude = 48.135124, Longitude = 11.581981 },
-                new City { Name = "Amsterdam", Latitude = 52.370216, Longitude = 4.895168 },
-            };
+            return await cityRepository.GetCities();
         }
     }
 }

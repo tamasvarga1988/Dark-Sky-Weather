@@ -1,4 +1,4 @@
-﻿namespace DarkSkyWeather.Contracts.DataModel
+﻿namespace DarkSkyWeather.Contracts.Dtos
 {
     public class City
     {

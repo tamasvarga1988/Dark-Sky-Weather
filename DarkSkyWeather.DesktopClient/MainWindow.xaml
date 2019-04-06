@@ -1,31 +1,35 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:DarkSkyWeather.DesktopClient.ViewModel"
-        xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-        xmlns:converters="clr-namespace:DarkSkyWeather.DesktopClient.Converters"
-        x:Class="DarkSkyWeather.DesktopClient.MainWindow"
-        prism:ViewModelLocator.AutoWireViewModel="True"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance {x:Type vm:DesignTimeMainViewModel}, IsDesignTimeCreatable=True}"
-        Title="Dark Sky Weather" Height="720" Width="960">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:DarkSkyWeather.DesktopClient.ViewModels"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+    xmlns:converters="clr-namespace:DarkSkyWeather.DesktopClient.Converters"
+    x:Class="DarkSkyWeather.DesktopClient.MainWindow"
+    Name="MainWeatherWindow"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance {x:Type vm:DesignTimeMainViewModel}, IsDesignTimeCreatable=True}"
+    Title="Dark Sky Weather" Height="720" Width="1280">
     <Window.Resources>
         <ResourceDictionary>
+            <converters:WeatherImageSourceConverter x:Key="WeatherImageSourceConverter" />
+            <converters:CountryFlagImageSourceConverter x:Key="CountryFlagImageSourceConverter" />
             <converters:DateToStringConverter x:Key="DateToStringConverter" />
             <converters:HumidityToStringConverter x:Key="HumidityToStringConverter" />
-            <converters:TemperatureToStringConverter x:Key="TemperatureToStringConverter" />
+            <converters:TemperatureToStringConverter x:Key="TemperatureToStringConverter" />            
+            <converters:SpeedToStringConverter x:Key="SpeedToStringConverter" />
+            <converters:PressureToStringConverter x:Key="PressureToStringConverter" />
+            <converters:UvToColorConverter x:Key="UvToColorConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-            <Style TargetType="{x:Type ComboBox}">
-                <Setter Property="Margin" Value="10" />
-                <Setter Property="Foreground" Value="White" />
-            </Style>
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
-                <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}" />
-            </Style>
-
+            <BitmapImage x:Key="HumidityIcon" UriSource="Images/WeatherData/humidity.png" />
+            <BitmapImage x:Key="PressureIcon" UriSource="Images/WeatherData/pressure.png" />
+            <BitmapImage x:Key="TemperatureHighIcon" UriSource="Images/WeatherData/temperature-high.png" />
+            <BitmapImage x:Key="TemperatureLowIcon" UriSource="Images/WeatherData/temperature-low.png" />
+            <BitmapImage x:Key="UVIcon" UriSource="Images/WeatherData/uv.png" />
+            <BitmapImage x:Key="WindIcon" UriSource="Images/WeatherData/wind.png" />
         </ResourceDictionary>
     </Window.Resources>
     <Window.Background>
@@ -37,11 +41,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <!-- Error Message -->
+        <TextBlock
+            Foreground="White"
+            Text="{Binding ErrorMessage}" />
+        
+        <!-- Loading -->
+        <ProgressBar            
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Foreground="SlateBlue"            
+            IsIndeterminate="True" 
+            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
         <!-- City and Language -->
-        <Grid>
+        <Grid
+            Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -55,12 +74,6 @@
                 ItemsSource="{Binding Cities}"
                 SelectedItem="{Binding SelectedCity, Mode=TwoWay}" 
                 Template="{DynamicResource DarkSkyComboBoxControlTemplate}">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ComboBoxItem}">
-                        <Setter Property="Background" Value="LightSkyBlue"/>
-                        <Setter Property="BorderBrush" Value="LightSkyBlue"/>
-                    </Style>
-                </ComboBox.ItemContainerStyle>
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock 
@@ -73,14 +86,33 @@
 
             <!-- Language -->
             <ComboBox 
-                Grid.Column="2"/>
-
+                Grid.Column="2"
+                ItemsSource="{Binding Languages}"
+                SelectedItem="{Binding SelectedLanguage}"
+                Template="{DynamicResource DarkSkyComboBoxControlTemplate}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <Image
+                                Source="{Binding Code, Converter={StaticResource CountryFlagImageSourceConverter}}"
+                                Width="30" />
+                            <TextBlock 
+                                FontSize="30"
+                                Margin="5"
+                                Text="{Binding Name}" />    
+                        </StackPanel>                        
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </Grid>
 
         <!-- Current Weather -->
         <Grid
-            Margin="5"
-            Grid.Row="1">
+            Grid.Row="2">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.1" />
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -97,8 +129,18 @@
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <TextBlock
-                    Text="{Binding Forecast.Current.Date, Converter={StaticResource DateToStringConverter}}" />
+                
+                <!-- Current Day -->
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource DateToStringConverter}" ConverterParameter="dddd HH:mm">
+                            <Binding Path="Forecast.Current.Date" />
+                            <Binding Path="SelectedLanguage" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                
+                <!-- Summary -->
                 <TextBlock
                     Text="{Binding Forecast.Current.Summary}" />
             </StackPanel>
@@ -108,93 +150,314 @@
                 Grid.Column="2"
                 Margin="20, 0"
                 Orientation="Horizontal">
-                <Image 
-                    Source="Images/clear-day.png"
+                <Image
+                    Source="{Binding Forecast.Current.Icon, Converter={StaticResource WeatherImageSourceConverter}}"
                     Width="100"/>
                 <StackPanel
+                    Margin="20,0,0,0"
                     VerticalAlignment="Center">
                     <TextBlock
                         Text="{Binding Forecast.Current.Temperature, Converter={StaticResource TemperatureToStringConverter}}" />
                     <TextBlock
-                        Text="{Binding Forecast.Current.ApparentTemperature, Converter={StaticResource TemperatureToStringConverter}}" />
+                        FontSize="18"
+                        HorizontalAlignment="Center"
+                        Margin="0,5"
+                        Text="{Binding Forecast.Current.ApparentTemperature, Converter={StaticResource TemperatureToStringConverter}, StringFormat=({0})}" />
                 </StackPanel>
             </StackPanel>
 
             <!-- Humidity, Wind speed, UV -->
-            <StackPanel
+            <WrapPanel
                 Grid.Row="1"
                 Grid.ColumnSpan="4"
                 HorizontalAlignment="Center"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                Margin="0,0,0,20">
 
                 <!-- Humidity -->
-                <Image 
-                    Width="20"
-                    Source="Images/humidity.png" />
+                <StackPanel Orientation="Horizontal">
+                    <Image 
+                        Width="30"
+                        Source="{StaticResource HumidityIcon}" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"                  
-                    Margin="5,0,5,0"
-                    Text="Humidity:" />
+                    <TextBlock                         
+                        VerticalAlignment="Center"                  
+                        Margin="5,0,5,0"
+                        Text="Humidity:" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"           
-                    Margin="5,0,20,0"
-                    Text="{Binding Forecast.Current.Humidity, Converter={StaticResource HumidityToStringConverter}}" />
+                    <TextBlock 
+                        VerticalAlignment="Center"           
+                        Margin="5,0,20,0"
+                        Text="{Binding Forecast.Current.Humidity, Converter={StaticResource HumidityToStringConverter}}" />
+                </StackPanel>
+
 
                 <!-- Wind speed -->
-                <Image 
-                    Width="20"
-                    Source="Images/wind.png" />
+                <StackPanel Orientation="Horizontal">
+                    <Image 
+                        Width="30"
+                        Source="{StaticResource WindIcon}" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"                  
-                    Margin="5,0,5,0"
-                    Text="Wind speed:" />
+                    <TextBlock 
+                        VerticalAlignment="Center"                  
+                        Margin="5,0,5,0"
+                        Text="Wind speed:" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"      
-                    Margin="5,0,1,0"
-                    Text="{Binding Forecast.Current.WindSpeed}" />
-                <TextBlock 
-                    VerticalAlignment="Center"                  
-                    Margin="5,0,20,0"
-                    Text="km/h" />
-                
+                    <TextBlock 
+                        VerticalAlignment="Center"      
+                        Margin="5,0,20,0"
+                        Text="{Binding Forecast.Current.WindSpeed, Converter={StaticResource SpeedToStringConverter}}" />
+                </StackPanel>
+
+
                 <!-- UV -->
-                <Image 
-                    Width="20"
-                    Source="Images/uv.png" />
+                <StackPanel Orientation="Horizontal">
+                    <Image 
+                        Width="30"
+                        Source="{StaticResource UVIcon}" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"                 
-                    Margin="5,0,5,0"
-                    Text="UV index:" />
+                    <TextBlock 
+                        VerticalAlignment="Center"                 
+                        Margin="5,0,5,0"
+                        Text="UV index:" />
 
-                <TextBlock 
-                    VerticalAlignment="Center" 
-                    Margin="5,0,20,0"
-                    Text="{Binding Forecast.Current.UV}" />
+                    <TextBlock 
+                        VerticalAlignment="Center" 
+                        Margin="5,0,20,0"
+                        Text="{Binding Forecast.Current.UV}" />
+                </StackPanel>
 
                 <!-- Pressure -->
-                <Image 
-                    Width="20"
-                    Source="Images/pressure.png" />
+                <StackPanel Orientation="Horizontal">
+                    <Image 
+                        Width="20"
+                        Source="{StaticResource PressureIcon}" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"                  
-                    Margin="5,0,5,0"
-                    Text="Pressure:" />
+                    <TextBlock 
+                        VerticalAlignment="Center"                  
+                        Margin="5,0,5,0"
+                        Text="Pressure:" />
 
-                <TextBlock 
-                    VerticalAlignment="Center"      
-                    Margin="5,0,1,0"
-                    Text="{Binding Forecast.Current.WindSpeed}" />
-                <TextBlock 
-                    VerticalAlignment="Center"                  
-                    Margin="5,0,20,0"
-                    Text="hPa" />
-            </StackPanel>
+                    <TextBlock 
+                        VerticalAlignment="Center"      
+                        Margin="5,0,20,0"
+                        Text="{Binding Forecast.Current.Pressure, Converter={StaticResource PressureToStringConverter}}" />
+                </StackPanel>
+
+            </WrapPanel>
         </Grid>
+
+        <!-- 7 days forecast -->
+        <ListView
+            Background="Transparent"
+            HorizontalAlignment="Center"
+            BorderThickness="0"
+            Margin="0,25,0,0"
+            Grid.Row="3"
+            ItemsSource="{Binding Forecast.DailyForecast}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel 
+                        Orientation="Horizontal" 
+                        VerticalAlignment="Top" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.Background>
+                            <SolidColorBrush Color="Black" Opacity="0.1" />
+                        </Grid.Background>
+                        <Grid.Resources>
+                            <GridLength x:Key="FirstColumnWidth">30</GridLength>
+                        </Grid.Resources>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{StaticResource FirstColumnWidth}" />
+                            <ColumnDefinition Width="130" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Day of week -->
+                        <Border                            
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2" />
+                            </Border.Background>
+                            <TextBlock
+                            FontSize="24"
+                            HorizontalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource DateToStringConverter}" ConverterParameter="ddd">
+                                        <Binding Path="Date" />
+                                        <Binding ElementName="MainWeatherWindow" Path="DataContext.SelectedLanguage" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Border>
+
+                        <!-- Date -->
+                        <Border
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Padding="0,0,0,5">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2" />
+                            </Border.Background>                        
+                            <TextBlock
+                                HorizontalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource DateToStringConverter}" ConverterParameter="d. MMM">
+                                        <Binding Path="Date" />
+                                        <Binding ElementName="MainWeatherWindow" Path="DataContext.SelectedLanguage" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Border>
+                        
+                        <!-- Weather icon -->
+                        <Image
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Center"
+                            Source="{Binding Icon, Converter={StaticResource WeatherImageSourceConverter}}"
+                            Height="50"/>
+                        
+                        <!-- Max Temperature -->
+                        <Border
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            Padding="0,5">
+                            <Border.Background>
+                                <SolidColorBrush Color="Orange" Opacity="0.9" />
+                            </Border.Background>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{StaticResource FirstColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image
+                                    Grid.RowSpan="2"
+                                    Width="20"
+                                    VerticalAlignment="Center"
+                                    Source="{StaticResource TemperatureHighIcon}" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"                          
+                                    Text="{Binding TemperatureMax, Converter={StaticResource TemperatureToStringConverter}}"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"    
+                                    FontSize="14"
+                                    Text="{Binding ApparentTemperatureMax, Converter={StaticResource TemperatureToStringConverter}, StringFormat=({0})}"/>
+                            </Grid>
+
+                        </Border>
+
+                        <!-- Min Temperature -->
+                        <Border
+                            Grid.Row="4"
+                            Grid.ColumnSpan="2"
+                            Padding="0,5">
+                            <Border.Background>
+                                <SolidColorBrush Color="RoyalBlue" Opacity="0.5" />
+                            </Border.Background>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{StaticResource FirstColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image
+                                    Grid.RowSpan="2"
+                                    Width="20"
+                                    VerticalAlignment="Center"
+                                    Source="{StaticResource TemperatureLowIcon}" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"                          
+                                    Text="{Binding TemperatureMin, Converter={StaticResource TemperatureToStringConverter}}"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"    
+                                    FontSize="14"
+                                    Text="{Binding ApparentTemperatureMin, Converter={StaticResource TemperatureToStringConverter}, StringFormat=({0})}"/>
+                            </Grid>
+
+                        </Border>
+
+                        <!-- Wind Speed -->
+                        <Image
+                            Grid.Row="7"                            
+                            Width="30"
+                            Source="{StaticResource WindIcon}" />
+                        <TextBlock 
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Margin="0,5"
+                            Text="{Binding WindSpeed, Converter={StaticResource SpeedToStringConverter}}" />
+
+                        <!-- Humidity -->
+                        <Image
+                            Grid.Row="8"
+                            Width="30"
+                            Source="{StaticResource HumidityIcon}" />
+                        <TextBlock 
+                            Grid.Row="8"
+                            Grid.Column="1"    
+                            Margin="0,5"
+                            Text="{Binding Humidity, Converter={StaticResource PressureToStringConverter}}" />
+
+                        <!-- UV -->
+                        <Image
+                            Grid.Row="9"                            
+                            Width="30"
+                            Source="{StaticResource UVIcon}" />
+                        <ProgressBar
+                            Grid.Row="9"
+                            Grid.Column="1"
+                            Minimum="0"
+                            Maximum="11" 
+                            Value="{Binding UV}"
+                            Foreground="{Binding UV, Converter={StaticResource UvToColorConverter}}"
+                            Margin="10,5"
+                            Background="LightGray"/>
+
+                        <!-- Pressure -->
+                        <Image
+                            Grid.Row="10"
+                            Width="20"
+                            Source="{StaticResource PressureIcon}" />
+                        <TextBlock 
+                            Grid.Row="10"
+                            Grid.Column="1"     
+                            Margin="0,5"
+                            Text="{Binding Pressure, Converter={StaticResource PressureToStringConverter}}" />
+                    </Grid>
+                </DataTemplate>                
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>

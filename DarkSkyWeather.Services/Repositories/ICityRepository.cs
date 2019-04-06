@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DarkSkyWeather.Contracts.Services
+namespace DarkSkyWeather.Services.Repositories
 {
-    public interface ICityService
+    public interface ICityRepository
     {
         Task<List<City>> GetCities();
     }

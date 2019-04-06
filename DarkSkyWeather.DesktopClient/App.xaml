@@ -8,6 +8,23 @@
         <sys:Double x:Key="FontSizeNormal">20</sys:Double>
         <SolidColorBrush x:Key="ForegroundColor" Color="White" />
 
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Foreground" Value="White" />
+
+        </Style>
+        
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
+            <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
         <ControlTemplate x:Key="DarkSkyComboBoxControlTemplate" TargetType="{x:Type ComboBox}">
             <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
                 <Grid.ColumnDefinitions>
@@ -16,7 +33,7 @@
                 </Grid.ColumnDefinitions>
                 <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
                     <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
-                        <Border x:Name="DropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                        <Border x:Name="DropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
                             <ScrollViewer x:Name="DropDownScrollViewer">
                                 <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
                                     <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
@@ -25,6 +42,9 @@
                                     <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </Grid>
                             </ScrollViewer>
+                            <Border.Background>
+                                <SolidColorBrush Color="#387FD7" Opacity="1" />
+                            </Border.Background>
                         </Border>
                     </Themes:SystemDropShadowChrome>
                 </Popup>
@@ -42,6 +62,9 @@
                                             <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="True" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
                                                 <Path x:Name="Arrow" Data="F1M0,0L2.667,2.66665 5.3334,0 5.3334,-1.78168 2.6667,0.88501 0,-1.78168 0,0z" Fill="White" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
                                             </Border>
+                                            <Border.Background>
+                                                <SolidColorBrush Color="Black" Opacity="0.1" />
+                                            </Border.Background>
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <MultiDataTrigger>
@@ -53,7 +76,11 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="Background" TargetName="templateRoot" Value="White"/>
                                                 <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FFABADB3"/>
-                                                <Setter Property="Background" TargetName="splitBorder" Value="Transparent"/>
+                                                <Setter Property="Background" TargetName="splitBorder">
+                                                    <Setter.Value>
+                                                        <SolidColorBrush Color="Black" Opacity="0.1" />
+                                                    </Setter.Value>
+                                                </Setter>
                                                 <Setter Property="BorderBrush" TargetName="splitBorder" Value="Transparent"/>
                                             </MultiDataTrigger>
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -66,7 +93,7 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="Background" TargetName="templateRoot">
                                                     <Setter.Value>
-                                                        <SolidColorBrush Color="LightSkyBlue" />
+                                                        <SolidColorBrush Color="Black" Opacity="0.1" />
                                                     </Setter.Value>
                                                 </Setter>
                                                 <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF7EB4EA"/>
@@ -80,7 +107,7 @@
                                                 <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF7EB4EA"/>
                                                 <Setter Property="Background" TargetName="splitBorder">
                                                     <Setter.Value>
-                                                        <SolidColorBrush Color="LightSkyBlue" />
+                                                        <SolidColorBrush Color="Black" Opacity="0.15" />
                                                     </Setter.Value>
                                                 </Setter>
                                                 <Setter Property="BorderBrush" TargetName="splitBorder" Value="#FF7EB4EA"/>
@@ -95,7 +122,7 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="Background" TargetName="templateRoot">
                                                     <Setter.Value>
-                                                        <SolidColorBrush Color="LightSkyBlue" />
+                                                        <SolidColorBrush Color="Black" Opacity="0.1" />
                                                     </Setter.Value>
                                                 </Setter>
                                                 <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF569DE5"/>
@@ -109,7 +136,7 @@
                                                 <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF569DE5"/>
                                                 <Setter Property="Background" TargetName="splitBorder">
                                                     <Setter.Value>
-                                                        <SolidColorBrush Color="LightSkyBlue" />
+                                                        <SolidColorBrush Color="Black" Opacity="0.1" />
                                                     </Setter.Value>
                                                 </Setter>
                                                 <Setter Property="BorderBrush" TargetName="splitBorder" Value="#FF569DE5"/>
@@ -132,7 +159,11 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="Background" TargetName="templateRoot" Value="White"/>
                                                 <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FFBFBFBF"/>
-                                                <Setter Property="Background" TargetName="splitBorder" Value="Transparent"/>
+                                                <Setter Property="Background" TargetName="splitBorder">
+                                                    <Setter.Value>
+                                                        <SolidColorBrush Color="Black" Opacity="0.1" />
+                                                    </Setter.Value>
+                                                </Setter>
                                                 <Setter Property="BorderBrush" TargetName="splitBorder" Value="Transparent"/>
                                             </MultiDataTrigger>
                                         </ControlTemplate.Triggers>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DarkSkyWeather.Contracts.DataModel
+namespace DarkSkyWeather.Contracts.Dtos
 {
     public enum ForecastUnits
     {

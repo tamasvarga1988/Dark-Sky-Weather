@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using DataModel = DarkSkyWeather.Contracts.DataModel;
+using Dtos = DarkSkyWeather.Contracts.Dtos;
 
 namespace DarkSkyWeather.Services.Mapping
 {
@@ -16,33 +15,28 @@ namespace DarkSkyWeather.Services.Mapping
         {
             // DailyWeatherMapper
             var dailyWeatherMapperConfig = 
-                new MapperConfiguration(cfg => cfg.CreateMap<ApiModel.DailyWeather, DataModel.DailyWeather>()
-                    .ForMember(dst => dst.Date, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.Time)))
-                    .ForMember(dst => dst.ApparentTemperatureMaxTime, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.ApparentTemperatureMaxTime)))
-                    .ForMember(dst => dst.ApparentTemperatureMinTime, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.ApparentTemperatureMinTime)))
-                    .ForMember(dst => dst.TemperatureMaxTime, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.TemperatureMaxTime)))
-                    .ForMember(dst => dst.TemperatureMinTime, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.TemperatureMinTime)))
-                    .ForMember(dst => dst.UVTime, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.UVTime))));
+                new MapperConfiguration(cfg => cfg.CreateMap<ApiModel.DailyWeather, Dtos.DailyWeather>()
+                    .ForMember(dst => dst.Date, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.Time))));
 
             DailyWeatherMapper = dailyWeatherMapperConfig.CreateMapper();
 
             // CurrentWeatherMapper
             var currentWeatherMapperConfig =
-                new MapperConfiguration(cfg => cfg.CreateMap<ApiModel.CurrentWeather, DataModel.CurrentWeather>()
+                new MapperConfiguration(cfg => cfg.CreateMap<ApiModel.CurrentWeather, Dtos.CurrentWeather>()
                     .ForMember(dst => dst.Date, opt => opt.MapFrom(src => UnixTimeStampToDateTime(src.Time))));
 
             CurrentWeatherMapper = currentWeatherMapperConfig.CreateMapper();
 
             // ForecastResultMapper
             var forecastResultMapperConfig =
-                new MapperConfiguration(cfg => cfg.CreateMap<ApiModel.ForecastResult, DataModel.Forecast>()
+                new MapperConfiguration(cfg => cfg.CreateMap<ApiModel.ForecastResult, Dtos.Forecast>()
                     .ForMember(dst => dst.Current, opt => opt.MapFrom(src =>
-                        CurrentWeatherMapper.Map<DataModel.CurrentWeather>(src.CurrentWeather)))                        
+                        CurrentWeatherMapper.Map<Dtos.CurrentWeather>(src.CurrentWeather)))                        
                     .ForMember(dst => dst.DailyForecast, opt => opt.Ignore())
                     .AfterMap((apiModel, dataModel) =>
                     {
                         dataModel.DailyForecast = apiModel.DailyData.Days.Select(d => 
-                            DailyWeatherMapper.Map<DataModel.DailyWeather>(d))
+                            DailyWeatherMapper.Map<Dtos.DailyWeather>(d))
                             .ToList();
                     }));
 
