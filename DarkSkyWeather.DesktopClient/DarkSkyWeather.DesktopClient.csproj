@@ -174,5 +174,11 @@
     <Resource Include="Images\CountryFlags\hu.jpg" />
     <Resource Include="Images\CountryFlags\en.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\powered-by-darksky.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

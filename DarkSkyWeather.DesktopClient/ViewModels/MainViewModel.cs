@@ -3,6 +3,7 @@ using DarkSkyWeather.Contracts.Requests;
 using DarkSkyWeather.Contracts.Services;
 using DarkSkyWeather.DesktopClient.TaskCompletion;
 using DarkSkyWeather.Services;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -65,10 +66,13 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
                     {
                         ErrorMessage = null;
                     }
+                    RefreshCommand.RaiseCanExecuteChanged();
                 });
             }
         }
-        
+
+        public DelegateCommand RefreshCommand { get; private set; }
+
         public MainViewModel(
             IWeatherService weatherService, 
             ICityService cityService,
@@ -86,6 +90,7 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             Initialize();
         }
 
+        
         private void Initialize()
         {
             citiesTaskCompletion.TaskCompleted += CitiesLoaded;
@@ -96,8 +101,20 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             languagesTaskCompletion.OnError += OnError;
             forecastTaskCompletion.OnError += OnError;
 
+            RefreshCommand = new DelegateCommand(Refresh, CanRefresh);
+
             LoadCities();
             LoadLanguages();
+        }
+
+        private void Refresh()
+        {
+            LoadForecast();
+        }
+
+        private bool CanRefresh()
+        {
+            return !IsLoading;
         }
 
         private void LoadCities()

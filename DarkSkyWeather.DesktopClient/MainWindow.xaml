@@ -24,6 +24,10 @@
             <converters:UvToColorConverter x:Key="UvToColorConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+            <BitmapImage x:Key="BackgroundImage" UriSource="Images/background.jpg" />
+            <BitmapImage x:Key="RefreshIcon" UriSource="Images/refresh.png" />
+            <BitmapImage x:Key="PoweredByIcon" UriSource="Images/powered-by-darksky.png" />
+            
             <BitmapImage x:Key="HumidityIcon" UriSource="Images/WeatherData/humidity.png" />
             <BitmapImage x:Key="PressureIcon" UriSource="Images/WeatherData/pressure.png" />
             <BitmapImage x:Key="TemperatureHighIcon" UriSource="Images/WeatherData/temperature-high.png" />
@@ -33,7 +37,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Window.Background>
-        <ImageBrush ImageSource="Images/background.jpg" />
+        <ImageBrush ImageSource="{StaticResource BackgroundImage}" />
     </Window.Background>
 
     <!-- Main Grid -->
@@ -44,6 +48,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <!-- Powered by DarkSky logo -->
+        <Image
+            Grid.Row="3"
+            Height="30"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Opacity="0.5"
+            Source="{StaticResource PoweredByIcon}" />
 
         <!-- Error Message -->
         <TextBlock
@@ -58,11 +71,12 @@
             IsIndeterminate="True" 
             Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-        <!-- City and Language -->
+        <!-- Refresh, City and Language -->
         <Grid
             Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -72,7 +86,7 @@
             <ComboBox 
                 Grid.Column="1"
                 ItemsSource="{Binding Cities}"
-                SelectedItem="{Binding SelectedCity, Mode=TwoWay}" 
+                SelectedItem="{Binding SelectedCity, Mode=TwoWay}"                 
                 Template="{DynamicResource DarkSkyComboBoxControlTemplate}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -105,6 +119,17 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            
+            <!-- Refresh Button -->
+            <Button 
+                Grid.Column="3"
+                Height="55"
+                Command="{Binding RefreshCommand}">
+                <Image Source="{StaticResource RefreshIcon}" />
+                <Button.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.1" />
+                </Button.Background>
+            </Button>
         </Grid>
 
         <!-- Current Weather -->
@@ -133,7 +158,7 @@
                 <!-- Current Day -->
                 <TextBlock>
                     <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource DateToStringConverter}" ConverterParameter="dddd HH:mm">
+                        <MultiBinding Converter="{StaticResource DateToStringConverter}" ConverterParameter="dddd d. MMM">
                             <Binding Path="Forecast.Current.Date" />
                             <Binding Path="SelectedLanguage" />
                         </MultiBinding>
@@ -459,5 +484,6 @@
                 </DataTemplate>                
             </ListView.ItemTemplate>
         </ListView>
+
     </Grid>
 </Window>

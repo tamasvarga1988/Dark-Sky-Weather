@@ -1,4 +1,5 @@
 ﻿using DarkSkyWeather.Contracts.Dtos;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,37 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             set { SetProperty(ref selectedLanguage, value); }
         }
 
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set { SetProperty(ref errorMessage, value); }
+        }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                SetProperty(ref isLoading, value, () =>
+                {
+                    if (isLoading)
+                    {
+                        ErrorMessage = null;
+                    }
+                });
+            }
+        }
+
         private Forecast forecast;
         public Forecast Forecast
         {
             get { return forecast; }
             set { SetProperty(ref forecast, value); }
         }
+
+        public DelegateCommand RefreshCommand { get; private set; }
 
         public DesignTimeMainViewModel()
         {
