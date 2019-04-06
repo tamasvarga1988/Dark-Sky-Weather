@@ -55,11 +55,6 @@ namespace DarkSkyWeather.Services
             if (request.Longitude < -180 || request.Longitude > 180)
             {
                 throw new ArgumentOutOfRangeException(nameof(request.Longitude), "Longitude value must be between -180 and 180.");
-            }            
-
-            if (!languages.Any(l => l.Code == request.Language))
-            {
-                throw new NotSupportedException($"Language code ({request.Language}) is not supported.");
             }
         }
     }
