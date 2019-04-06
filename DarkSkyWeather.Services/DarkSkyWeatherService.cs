@@ -1,7 +1,7 @@
-﻿using DarkSkyWeather.Contracts.Dtos;
+﻿using AutoMapper;
+using DarkSkyWeather.Contracts.Dtos;
 using DarkSkyWeather.Contracts.Requests;
 using DarkSkyWeather.Contracts.Services;
-using DarkSkyWeather.Services.Mapping;
 using DarkSkyWeather.Services.Repositories;
 using DarkSkyWeather.Services.Wrappers;
 using System;
@@ -15,11 +15,16 @@ namespace DarkSkyWeather.Services
     {
         private readonly IDarkSkyApiWrapper darkSkyApiWrapper;
         private readonly ILanguageRepository languageRepository;
+        private readonly IMapper mapper;
 
-        public DarkSkyWeatherService(IDarkSkyApiWrapper darkSkyApiWrapper, ILanguageRepository languageRepository)
+        public DarkSkyWeatherService(
+            IDarkSkyApiWrapper darkSkyApiWrapper, 
+            ILanguageRepository languageRepository,
+            IMapper mapper)
         {
             this.darkSkyApiWrapper = darkSkyApiWrapper ?? throw new ArgumentNullException(nameof(darkSkyApiWrapper));
             this.languageRepository = languageRepository ?? throw new ArgumentNullException(nameof(languageRepository));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<Forecast> GetForecast(ForecastRequest request)
@@ -31,7 +36,7 @@ namespace DarkSkyWeather.Services
             // API returns 8 days (first day is today), but we need only the next 7 days
             apiForecast.DailyData.Days = apiForecast.DailyData.Days.Skip(1).ToList();
             
-            var forecast = MapperConfig.ForecastResultMapper.Map<Forecast>(apiForecast);
+            var forecast = mapper.Map<Forecast>(apiForecast);
             return forecast;
         }
 

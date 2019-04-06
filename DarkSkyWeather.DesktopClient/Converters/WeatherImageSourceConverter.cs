@@ -7,7 +7,7 @@ namespace DarkSkyWeather.DesktopClient.Converters
     public class WeatherImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+        {            
             return $"pack://application:,,,/Images/WeatherConditions/{value}.png";
         }
 

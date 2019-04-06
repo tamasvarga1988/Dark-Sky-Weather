@@ -97,9 +97,9 @@ namespace DarkSkyWeather.DesktopClient.ViewModels
             this.weatherService = weatherService;
             this.cityService = cityService;
 
-            this.forecastTaskCompletion = forecastTaskCompletion;
-            this.citiesTaskCompletion = citiesTaskCompletion;
-            this.languagesTaskCompletion = languagesTaskCompletion;
+            this.forecastTaskCompletion = forecastTaskCompletion ?? throw new ArgumentNullException(nameof(forecastTaskCompletion));
+            this.citiesTaskCompletion = citiesTaskCompletion ?? throw new ArgumentNullException(nameof(citiesTaskCompletion));
+            this.languagesTaskCompletion = languagesTaskCompletion ?? throw new ArgumentNullException(nameof(languagesTaskCompletion));
 
             Initialize();
         }

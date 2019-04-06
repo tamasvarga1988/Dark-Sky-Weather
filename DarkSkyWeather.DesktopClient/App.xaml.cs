@@ -34,6 +34,7 @@ namespace DarkSkyWeather.DesktopClient
             container.RegisterType(typeof(IDarkSkyApiWrapper), typeof(DarkSkyApiWrapper));
             container.RegisterType(typeof(IWeatherService), typeof(DarkSkyWeatherService));
             container.RegisterType(typeof(ICityService), typeof(CityService));
+            container.RegisterInstance(Services.Mapping.MapperConfig.CreateMapper());
             container.RegisterType(typeof(NotifyTaskCompletionBase<>), typeof(NotifyTaskCompletion<>));
         }
 
